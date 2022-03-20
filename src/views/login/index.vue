@@ -48,9 +48,7 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
 
@@ -60,8 +58,9 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >登录</el-button
       >
+        登录
+      </el-button>
 
       <div class="tips">
         <span style="margin-right: 20px">账号: 13800000002</span>
@@ -73,6 +72,7 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -119,6 +119,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['user/login']),
+
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -130,21 +132,19 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          this.loading = true
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
+      this.$refs.loginForm.validate(async (isOK) => {
+        if (isOK) {
+          try {
+            this.loading = true
+            // 只有校验通过了 我们才去调用action
+            await this['user/login'](this.loginForm)
+            this.$router.push('/')
+          } catch (error) {
+            console.log(error)
+          } finally {
+            //  不论执行try 还是catch  都去关闭加载状态
+            this.loading = false
+          }
         }
       })
     }
