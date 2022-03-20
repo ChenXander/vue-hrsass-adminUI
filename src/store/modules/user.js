@@ -26,12 +26,10 @@ const actions = {
   // 定义login action  也需要参数 调用action时 传递过来的参数
   async login(context, data) {
     // 调用api接口
+    // 经过响应拦截器的处理之后 这里的result实际上就是 token
     const result = await login(data)
-    // axios默认给数据加了一层data
-    if (result.data.success) {
-      // actions 修改state 必须通过mutations
-      context.commit('setToken', result.data.data)
-    }
+    // actions 修改state 必须通过mutations
+    context.commit('setToken', result)
   }
 }
 
