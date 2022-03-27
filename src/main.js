@@ -5,6 +5,9 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+// 监听图片加载完成刷新滚动的事件总线
+Vue.prototype.$bus = new Vue()
+
 new Vue({
   router,
   store,

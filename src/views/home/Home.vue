@@ -89,6 +89,11 @@ export default {
     this.getHomeGoods('pop')
     this.getHomeGoods('new')
     this.getHomeGoods('sell')
+
+    // 3.监听item图片加载完成
+    this.$bus.$on('itemImageLoad', () => {
+      this.$refs.scroll.refresh()
+    })
   },
   methods: {
     /**
@@ -123,8 +128,6 @@ export default {
     loadMore () {
       // 上拉加载获取更多数据
       this.getHomeGoods(this.currentType)
-      // 重新计算可滚动高度
-      this.$refs.scroll.scroll.refresh()
     },
 
     /**

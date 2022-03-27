@@ -26,7 +26,7 @@ export default {
   },
   data () {
     return {
-      scroll: null
+      scroll: null // 滚动数据
     }
   },
   methods: {
@@ -37,6 +37,10 @@ export default {
     // 加载更多
     finishPullUp () {
       this.scroll.finishPullUp()
+    },
+    // 刷新上拉加载图片的高度
+    refresh () {
+      this.scroll.refresh()
     }
   },
   mounted () {
