@@ -14,7 +14,7 @@ export default {
   name: 'RecommendView',
   components: {},
   props: {
-    recommends: Array,
+    recommends: Array, // 推荐栏数据
     default () {
       return []
     }
@@ -27,15 +27,14 @@ export default {
 </script>
 
 <style scoped>
-.recommend{
+.recommend {
   display: flex;
   width: 100%;
   text-align: center;
   font-size: 12px;
 
-  padding:10px 0 20px;
+  padding: 10px 0 20px;
   border-bottom: 10px solid #eee;
-
 }
 
 .recommend-item {

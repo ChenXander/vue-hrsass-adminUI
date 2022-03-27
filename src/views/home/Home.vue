@@ -2,47 +2,169 @@
   <div id="home">
     <!-- 首页顶部导航 -->
     <nav-bar class="home-nav">
-      <template v-slot:center>
-        购物街
-      </template>
+      <template v-slot:center> 购物街 </template>
     </nav-bar>
 
-    <home-swiper :banners="banners" />
+    <!-- 滚动插件组件 -->
+    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+      <!-- 轮播图 -->
+      <home-swiper :banners="banners" />
 
-    <recommend-view :recommends="recommends" />
+      <!-- 推荐栏 -->
+      <recommend-view :recommends="recommends" />
+
+      <!-- 本周流行 -->
+      <feature-view />
+
+      <!-- 分类控制栏 -->
+      <tab-control class="tab-control" :titles="['流行', '新款', '精选']" @tabClick="tabClick" />
+
+      <!-- 商品列表 -->
+      <goods-list :goods="showGoods" />
+    </scroll>
+    <!-- 返回顶部按钮 -->
+    <back-top @click.native="backClick" v-show="isShowBackTop" />
   </div>
 </template>
 
 <script>
-import NavBar from 'components/common/navbar/NavBar'
+// 子组件
 import HomeSwiper from './childComps/HomeSwiper.vue'
 import RecommendView from './childComps/RecommendView.vue'
+import FeatureView from './childComps/FeatureView.vue'
 
-import { getHomeMultidata } from 'network/home'
+// 公共组件
+import NavBar from 'components/common/navbar/NavBar'
+import TabControl from 'components/content/tabControl/TabControl.vue'
+import GoodsList from 'components/content/goods/GoodsList.vue'
+import Scroll from 'components/common/scroll/Scroll.vue'
+import BackTop from 'components/content/backTop/BackTop.vue'
+
+// 数据请求
+import { getHomeMultidata, getHomeGoods } from 'network/home'
 
 export default {
   name: 'Home',
-  components: { NavBar, HomeSwiper, RecommendView },
+  components: {
+    HomeSwiper,
+    RecommendView,
+    FeatureView,
+    NavBar,
+    TabControl,
+    GoodsList,
+    Scroll,
+    BackTop
+  },
   data () {
     return {
       banners: [], // 轮播图数据
-      recommends: [] // 推荐
+      recommends: [], // 推荐
+      goods: {
+        pop: { page: 0, list: [] }, // 流行页数据
+        new: { page: 0, list: [] }, // 新品页数据
+        sell: { page: 0, list: [] } // 精选页数据
+      },
+      currentType: 'pop', // 当前选中的分类
+      isShowBackTop: false // 返回顶部按钮显示与隐藏
+    }
+  },
+  computed: {
+    // 计算商品分类的选中项
+    showGoods () {
+      return this.goods[this.currentType].list
     }
   },
   created () {
     // 1.请求多个数据
-    getHomeMultidata().then(res => {
-      this.banners = res.banner.list
-      this.recommends = res.recommend.list
-    })
+    this.getHomeMultidata() // * 一定要加this，否则调用的是导入进来的函数而不是methods中封装的
+
+    // 2.请求商品数据
+    this.getHomeGoods('pop')
+    this.getHomeGoods('new')
+    this.getHomeGoods('sell')
   },
-  methods: {}
+  methods: {
+    /**
+     * 事件监听相关的方法
+     */
+
+    // 分类控制栏的点击事件
+    tabClick (index) {
+      switch (index) {
+        case 0:
+          this.currentType = 'pop'
+          break
+        case 1:
+          this.currentType = 'new'
+          break
+        case 2:
+          this.currentType = 'sell'
+          break
+      }
+    },
+    // 返回顶部按钮的点击事件
+    backClick () {
+      this.$refs.scroll.scrollTo(0, 0, 500)
+    },
+
+    // 判断滚动距离决定是否显示返回顶部按钮
+    contentScroll (position) {
+      this.isShowBackTop = -position.y > 1000
+    },
+
+    /**
+     * 网络请求相关方法
+    */
+    // 获取主页数据
+    getHomeMultidata () {
+      getHomeMultidata().then((res) => {
+        this.banners = res.banner.list
+        this.recommends = res.recommend.list
+      })
+    },
+    // 获取商品数据
+    getHomeGoods (type) {
+      const page = this.goods[type].page + 1
+      getHomeGoods(type, page).then(res => {
+        this.goods[type].list.push(...res.list)
+        this.goods[type].page += 1
+      })
+    }
+
+  }
 }
 </script>
 
 <style scoped>
-.home-nav{
+#home {
+  position: relative;
+  height: 100vh;
+}
+
+.home-nav {
   background-color: var(--color-tint);
   color: #fff;
+
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 9;
+}
+
+.tab-control {
+  position: sticky;
+  top: 44px;
+  z-index: 9;
+}
+
+.content {
+  position: absolute;
+  top: 44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+
+  overflow: hidden;
 }
 </style>

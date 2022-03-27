@@ -1,6 +1,6 @@
 <template>
-  <div>
-    商品分类
+  <div class="">
+
   </div>
 </template>
 
@@ -8,6 +8,7 @@
 export default {
   name: 'Category',
   components: {},
+  props: {},
   data () {
     return {}
   },
@@ -15,6 +16,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
 </style>

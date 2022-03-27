@@ -2,12 +2,12 @@
   <div>
     <!-- 首页轮播图 -->
     <swiper>
-        <swiper-item v-for="(item, index) in banners" :key="index">
-          <a :href="item.link">
-            <img :src="item.image" alt="">
-          </a>
-        </swiper-item>
-      </swiper>
+      <swiper-item v-for="(item, index) in banners" :key="index">
+        <a :href="item.link">
+          <img :src="item.image" alt="">
+        </a>
+      </swiper-item>
+    </swiper>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ export default {
   name: 'HomeSwiper',
   components: { Swiper, SwiperItem },
   props: {
-    banners: { // 轮播图
+    banners: { // 轮播图数据
       type: Array,
       default () {
         return []
@@ -33,5 +33,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
