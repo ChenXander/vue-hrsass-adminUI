@@ -1,7 +1,7 @@
 <template>
   <!-- 返回顶部 -->
   <div class="back-top" @click="backClick">
-    <img src="~assets/img/common/top.png" alt="">
+    <img src="~assets/img/common/top.png" alt="" />
   </div>
 </template>
 
@@ -22,14 +22,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.back-top {
-  position: fixed;
-  right: 10px;
-  bottom: 55px;
-}
+  .back-top {
+    position: fixed;
+    right: 10px;
+    bottom: 55px;
+  }
 
-.back-top img {
-  width: 43px;
-  height: 43px;
-}
+  .back-top img {
+    width: 43px;
+    height: 43px;
+  }
 </style>

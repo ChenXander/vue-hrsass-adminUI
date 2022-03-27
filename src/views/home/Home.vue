@@ -6,7 +6,14 @@
     </nav-bar>
 
     <!-- 滚动插件组件 -->
-    <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <scroll
+      class="content"
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <!-- 轮播图 -->
       <home-swiper :banners="banners" />
 
@@ -112,6 +119,14 @@ export default {
       this.isShowBackTop = -position.y > 1000
     },
 
+    // 上拉加载更多事件
+    loadMore () {
+      // 上拉加载获取更多数据
+      this.getHomeGoods(this.currentType)
+      // 重新计算可滚动高度
+      this.$refs.scroll.scroll.refresh()
+    },
+
     /**
      * 网络请求相关方法
     */
@@ -128,6 +143,9 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.list)
         this.goods[type].page += 1
+
+        // 上拉加载完成
+        this.$refs.scroll.finishPullUp()
       })
     }
 
@@ -136,35 +154,35 @@ export default {
 </script>
 
 <style scoped>
-#home {
-  position: relative;
-  height: 100vh;
-}
+  #home {
+    position: relative;
+    height: 100vh;
+  }
 
-.home-nav {
-  background-color: var(--color-tint);
-  color: #fff;
+  .home-nav {
+    background-color: var(--color-tint);
+    color: #fff;
 
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 9;
-}
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9;
+  }
 
-.tab-control {
-  position: sticky;
-  top: 44px;
-  z-index: 9;
-}
+  .tab-control {
+    position: sticky;
+    top: 44px;
+    z-index: 9;
+  }
 
-.content {
-  position: absolute;
-  top: 44px;
-  bottom: 49px;
-  left: 0;
-  right: 0;
+  .content {
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
 
-  overflow: hidden;
-}
+    overflow: hidden;
+  }
 </style>
