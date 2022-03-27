@@ -8,18 +8,21 @@
     </nav-bar>
 
     <home-swiper :banners="banners" />
+
+    <recommend-view :recommends="recommends" />
   </div>
 </template>
 
 <script>
 import NavBar from 'components/common/navbar/NavBar'
 import HomeSwiper from './childComps/HomeSwiper.vue'
+import RecommendView from './childComps/RecommendView.vue'
 
 import { getHomeMultidata } from 'network/home'
 
 export default {
   name: 'Home',
-  components: { NavBar, HomeSwiper },
+  components: { NavBar, HomeSwiper, RecommendView },
   data () {
     return {
       banners: [], // 轮播图数据
@@ -30,7 +33,7 @@ export default {
     // 1.请求多个数据
     getHomeMultidata().then(res => {
       this.banners = res.banner.list
-      this.recommends = res.recommend
+      this.recommends = res.recommend.list
     })
   },
   methods: {}
