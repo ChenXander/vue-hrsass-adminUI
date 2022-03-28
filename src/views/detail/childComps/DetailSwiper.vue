@@ -14,7 +14,7 @@ export default {
   name: 'DetailSwiper',
   components: { Swiper, SwiperItem },
   props: {
-    topImages: {
+    topImages: { // 轮播图数据
       type: Array,
       default () {
         return []
