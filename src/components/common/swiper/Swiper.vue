@@ -1,16 +1,20 @@
 <template>
-    <div id="hy-swiper">
-      <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-        <slot></slot>
-      </div>
-      <slot name="indicator">
-      </slot>
-      <div class="indicator">
-        <slot name="indicator" v-if="showIndicator && slideCount>1">
-          <div v-for="(item, index) in slideCount" class="indi-item" :class="{active: index === currentIndex-1}" :key="index"></div>
-        </slot>
-      </div>
+  <div id="hy-swiper">
+    <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+      <slot></slot>
     </div>
+    <slot name="indicator"> </slot>
+    <div class="indicator">
+      <slot name="indicator" v-if="showIndicator && slideCount > 1">
+        <div
+          v-for="(item, index) in slideCount"
+          class="indi-item"
+          :class="{ active: index === currentIndex - 1 }"
+          :key="index"
+        ></div>
+      </slot>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -50,12 +54,12 @@ export default {
 
       // 2.开启定时器
       this.startTimer()
-    }, 3000)
+    }, 200)
   },
   methods: {
     /**
-       * 定时器操作
-       */
+     * 定时器操作
+     */
     startTimer: function () {
       this.playTimer = window.setInterval(() => {
         this.currentIndex++
@@ -240,6 +244,6 @@ export default {
   }
 
   .indi-item.active {
-    background-color: rgba(212,62,46,1.0);
+    background-color: rgba(212, 62, 46, 1);
   }
 </style>

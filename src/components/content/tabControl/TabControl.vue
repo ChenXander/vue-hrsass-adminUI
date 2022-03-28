@@ -1,7 +1,13 @@
 <template>
   <div class="tab-control">
     <!-- 切换分类控制栏 -->
-    <div class="tab-control-item" v-for="(item, index) in titles" :key="index" :class="{ active: index === currentIndex }" @click="itemClick(index)">
+    <div
+      class="tab-control-item"
+      v-for="(item, index) in titles"
+      :key="index"
+      :class="{ active: index === currentIndex }"
+      @click="itemClick(index)"
+    >
       <!-- 只是文字不同，所以不需要用插槽 -->
       <span>{{ item }}</span>
     </div>
@@ -35,30 +41,30 @@ export default {
 </script>
 
 <style scoped>
-.tab-control {
-  display: flex;
-  text-align: center;
-  font-size: 15px;
+  .tab-control {
+    display: flex;
+    text-align: center;
+    font-size: 15px;
 
-  height: 40px;
-  line-height: 40px;
+    height: 40px;
+    line-height: 40px;
 
-  background-color: #fff;
-}
+    background-color: #fff;
+  }
 
-.tab-control-item {
-  flex: 1;
-}
+  .tab-control-item {
+    flex: 1;
+  }
 
-.tab-control-item span {
-  padding: 5px;
-}
+  .tab-control-item span {
+    padding: 5px;
+  }
 
-.active {
-  color: var(--color-high-text);
-}
+  .active {
+    color: var(--color-high-text);
+  }
 
-.active span {
-  border-bottom: 2px solid var(--color-tint);
-}
+  .active span {
+    border-bottom: 2px solid var(--color-tint);
+  }
 </style>

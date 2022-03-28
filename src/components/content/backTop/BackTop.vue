@@ -21,7 +21,7 @@ export default {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped>
   .back-top {
     position: fixed;
     right: 10px;

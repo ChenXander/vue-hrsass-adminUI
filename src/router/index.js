@@ -11,7 +11,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '',
     redirect: '/Home' // 重定向首页
   },
   {
@@ -38,7 +38,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  module: 'history'
+  mode: 'history'
 })
 
 // 解决 用push跳转时报错问题

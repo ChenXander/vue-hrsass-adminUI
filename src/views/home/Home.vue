@@ -1,8 +1,8 @@
 <template>
-  <div id="home">
+  <div id="home" class="wrapper">
     <!-- 首页顶部导航 -->
     <nav-bar class="home-nav">
-      <template v-slot:center> 购物街 </template>
+      <div slot="center">购物街</div>
     </nav-bar>
     <tab-control
       :titles="['流行', '新款', '精选']"
@@ -89,7 +89,8 @@ export default {
       currentType: 'pop', // 当前选中的分类
       isShowBackTop: false, // 返回顶部按钮显示与隐藏
       tabOffsetTop: 0, // 分类控制栏的滚动
-      isTabFixed: false // 用于判定是否tabControl吸顶
+      isTabFixed: false, // 用于判定是否tabControl吸顶
+      saveY: 0
     }
   },
   computed: {
@@ -157,6 +158,7 @@ export default {
     // 轮播图的图片加载
     swiperImageLoad () {
       // 实现tabControl的吸顶效果
+      // 所有组件都有一个元素$el:用于获取组件中的元素
       this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop
     },
 
@@ -166,15 +168,15 @@ export default {
     // 获取主页数据
     getHomeMultidata () {
       getHomeMultidata().then((res) => {
-        this.banners = res.banner.list
-        this.recommends = res.recommend.list
+        this.banners = res.data.banner.list
+        this.recommends = res.data.recommend.list
       })
     },
     // 获取商品数据
     getHomeGoods (type) {
       const page = this.goods[type].page + 1
       getHomeGoods(type, page).then(res => {
-        this.goods[type].list.push(...res.list)
+        this.goods[type].list.push(...res.data.list)
         this.goods[type].page += 1
 
         // 上拉加载更多完成

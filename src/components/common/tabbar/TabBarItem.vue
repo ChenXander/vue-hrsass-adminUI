@@ -17,11 +17,6 @@ export default {
       default: 'red'
     }
   },
-  data () {
-    return {
-      // isActive: true
-    }
-  },
   computed: {
     isActive () {
       return this.$route.path.indexOf(this.path) !== -1

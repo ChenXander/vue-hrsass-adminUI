@@ -1,9 +1,9 @@
 <template>
-  <div class="goods-iteam" @click="itemClick">
-    <img :src="goodsItem.show.img" alt="" @load="imageLoad" />
+  <div class="goods-item" @click="itemClick">
+    <img :src="showImage" alt="" @load="imageLoad" />
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
-      <span class="price">{{ goodsItem.orgPrice }}</span>
+      <span class="price">{{ goodsItem.price }}</span>
       <span class="collect">{{ goodsItem.cfav }}</span>
     </div>
   </div>
@@ -12,7 +12,6 @@
 <script>
 export default {
   name: 'GoodsListItem',
-  components: {},
   props: {
     goodsItem: {
       type: Object,
@@ -23,6 +22,11 @@ export default {
   },
   data () {
     return {}
+  },
+  computed: {
+    showImage () {
+      return this.goodsItem.image || this.goodsItem.show.img
+    }
   },
   methods: {
     // 通过事件总线发送事件
@@ -39,13 +43,13 @@ export default {
 </script>
 
 <style scoped>
-  .goods-iteam {
+  .goods-item {
     padding-bottom: 40px;
     position: relative;
     width: 48%;
   }
 
-  .goods-iteam img {
+  .goods-item img {
     width: 100%;
     border-radius: 5px;
   }
