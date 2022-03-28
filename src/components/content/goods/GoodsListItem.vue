@@ -32,7 +32,7 @@ export default {
     // 商品点击事件
     itemClick () {
       // 跳转详情页
-
+      this.$router.push('/detail/' + this.goodsItem.iid)
     }
   }
 }
