@@ -4,7 +4,7 @@
     <swiper>
       <swiper-item v-for="(item, index) in banners" :key="index">
         <a :href="item.link">
-          <img :src="item.image" alt="">
+          <img :src="item.image" alt="" @load="imageLoad" />
         </a>
       </swiper-item>
     </swiper>
@@ -26,9 +26,20 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      isLoad: false // 用于限制发送加载图片事件的次数
+    }
   },
-  methods: {}
+  methods: {
+    // 轮播图的图片加载
+    imageLoad () {
+      // 如果已经发送则不再发送
+      if (!this.isLoad) {
+        this.$emit('swiperImageLoad')
+        this.isLoad = true
+      }
+    }
+  }
 }
 </script>
 

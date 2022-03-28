@@ -32,15 +32,19 @@ export default {
   methods: {
     // 滚动时的参数
     scrollTo (x, y, time = 300) {
-      this.scroll.scrollTo(x, y, time)
+      this.scroll && this.scroll.scrollTo(x, y, time)
     },
-    // 加载更多
+    // 上拉加载更多
     finishPullUp () {
-      this.scroll.finishPullUp()
+      this.scroll && this.scroll.finishPullUp()
     },
     // 刷新上拉加载图片的高度
     refresh () {
-      this.scroll.refresh()
+      this.scroll && this.scroll.refresh()
+    },
+    // 获取页面已滚动的距离
+    getScrollY () {
+      return this.scroll ? this.scroll.y : 0
     }
   },
   mounted () {
@@ -53,14 +57,18 @@ export default {
     })
 
     // 2.监听滚动的位置
-    this.scroll.on('scroll', position => {
-      this.$emit('scroll', position)
-    })
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.scroll.on('scroll', position => {
+        this.$emit('scroll', position)
+      })
+    }
 
-    // 3.监听上拉刷新事件
-    this.scroll.on('pullingUp', () => {
-      this.$emit('pullingUp')
-    })
+    // 3.监听scroll滚动到底部
+    if (this.pullUpLoad) {
+      this.scroll.on('pullingUp', () => {
+        this.$emit('pullingUp')
+      })
+    }
   }
 }
 </script>

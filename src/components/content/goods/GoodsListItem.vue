@@ -1,5 +1,5 @@
 <template>
-  <div class="goods-iteam">
+  <div class="goods-iteam" @click="itemClick">
     <img :src="goodsItem.show.img" alt="" @load="imageLoad" />
     <div class="goods-info">
       <p>{{ goodsItem.title }}</p>
@@ -28,6 +28,11 @@ export default {
     // 通过事件总线发送事件
     imageLoad () {
       this.$bus.$emit('itemImageLoad')
+    },
+    // 商品点击事件
+    itemClick () {
+      // 跳转详情页
+
     }
   }
 }
