@@ -2,13 +2,17 @@
   <div id="detail">
     <!-- 导航栏 -->
     <detail-nav-bar class="detail-nav" />
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <!-- 轮播图 -->
       <detail-swiper :topImages="topImages" />
       <!-- 商品详情信息 -->
       <detail-base-info :goods="goods" />
       <!-- 店家信息 -->
       <detail-shop-info :shop="shop" />
+      <!-- 商品具体数据 -->
+      <detail-goods-info :detailInfo="detailInfo" @imageLoad="imageLoad" />
+      <!-- 商品参数 -->
+      <detail-param-info :paramInfo="paramInfo" />
     </scroll>
   </div>
 </template>
@@ -19,26 +23,41 @@ import DetailNavBar from './childComps/DetailNavBar.vue'
 import DetailSwiper from './childComps/DetailSwiper.vue'
 import DetailBaseInfo from './childComps/DetailBaseInfo.vue'
 import DetailShopInfo from './childComps/DetailShopInfo.vue'
+import DetailGoodsInfo from './childComps/DetailGoodsInfo.vue'
+import DetailParamInfo from './childComps/DetailParamInfo.vue'
 
 // 公共组件
 import Scroll from 'components/common/scroll/Scroll'
 
 // 网络请求
-import { getDetail, Goods, Shop } from 'network/detail.js'
+import { getDetail, Goods, Shop, GoodsParam } from 'network/detail.js'
 
 export default {
   name: 'Detail',
-  components: { DetailNavBar, DetailSwiper, DetailBaseInfo, DetailShopInfo, Scroll },
+  components: {
+    DetailNavBar,
+    DetailSwiper,
+    DetailBaseInfo,
+    DetailShopInfo,
+    Scroll,
+    DetailGoodsInfo,
+    DetailParamInfo
+  },
   props: {},
   data () {
     return {
       iid: null, // 商品id
       topImages: [], // 顶部图片
       goods: {}, // 商品详情信息数据
-      shop: {} // 店铺信息
+      shop: {}, // 店铺信息
+      detailInfo: {}, // 商品真人秀数据
+      paramInfo: {} // 商品参数
     }
   },
   methods: {
+    imageLoad () {
+      this.$refs.scroll.refresh()
+    }
   },
   created () {
     // 1.保存传入的iid
@@ -55,6 +74,12 @@ export default {
 
       // 店铺信息数据
       this.shop = new Shop(data.shopInfo)
+
+      // 商品真人秀数据
+      this.detailInfo = data.detailInfo
+
+      // 获取商品参数
+      this.paramsInfo = new GoodsParam(data.itemParams.info, data.itemParams.rule)
     })
   }
 }
