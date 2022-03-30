@@ -20,7 +20,11 @@
     <!-- 服务信息栏 -->
     <div class="info-service">
       <!-- 数字可以遍历，比如遍历数字10，是从遍历1-10，不是0-9 -->
-      <span class="info-service-item" v-for="index in goods.services.length - 1" :key="index">
+      <span
+        class="info-service-item"
+        v-for="index in goods.services.length - 1"
+        :key="index"
+      >
         <img :src="goods.services[index - 1].icon" alt="" />
         <span>{{ goods.services[index - 1].name }}</span>
       </span>
@@ -51,6 +55,10 @@ export default {
   }
 
   .info-title {
+    color: #222;
+  }
+
+  .info-price {
     margin-top: 10px;
   }
 

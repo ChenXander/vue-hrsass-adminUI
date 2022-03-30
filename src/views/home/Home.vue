@@ -61,6 +61,7 @@ import BackTop from 'components/content/backTop/BackTop.vue'
 
 // 公共的工具函数
 import { debounce } from 'common/utils'
+import { itemListenerMixin } from 'common/mixin'
 
 // 数据请求
 import { getHomeMultidata, getHomeGoods } from 'network/home'
@@ -77,6 +78,7 @@ export default {
     Scroll,
     BackTop
   },
+  mixins: [itemListenerMixin],
   data () {
     return {
       banners: [], // 轮播图数据
@@ -90,7 +92,7 @@ export default {
       isShowBackTop: false, // 返回顶部按钮显示与隐藏
       tabOffsetTop: 0, // 分类控制栏的滚动
       isTabFixed: false, // 用于判定是否tabControl吸顶
-      saveY: 0
+      saveY: 0 // 记录离开的位置
     }
   },
   computed: {
@@ -190,7 +192,10 @@ export default {
     this.$refs.scroll.scrollTo(0, this.saveY, 0)
   },
   deactivated () {
+    // 1.保存y值
     this.saveY = this.$refs.scroll.getScrollY()
+    // 2.取消全局事件的监听，这里的第二个参数(on对应的第二个参数)必须要传，不然这个全局事件全部取消
+    this.$bus.$off('itemImageLoad', this.itemImgListener)
   }
 }
 </script>

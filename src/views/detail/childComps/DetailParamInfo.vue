@@ -10,6 +10,7 @@
       </tr>
     </table>
 
+    <!-- 参数信息表 -->
     <table class="info-param">
       <tr v-for="(info, index) in paramInfo.infos" :key="index">
         <td class="info-param-key">{{ info.key }}</td>

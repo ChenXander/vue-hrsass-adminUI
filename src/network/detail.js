@@ -9,6 +9,12 @@ export function getDetail (iid) {
     }
   })
 }
+// 请求商品推荐数据
+export function getRecommend () {
+  return request({
+    url: '/recommend'
+  })
+}
 
 // 商品详情信息的数据集
 export class Goods {

@@ -34,6 +34,7 @@ export default {
   methods: {
     itemClick (index) {
       this.currentIndex = index
+      // 把index传给外面的home 以做到点击切换商品
       this.$emit('tabClick', index)
     }
   }

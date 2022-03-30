@@ -1,23 +1,13 @@
 <template>
   <!-- 返回顶部 -->
-  <div class="back-top" @click="backClick">
+  <div class="back-top">
     <img src="~assets/img/common/top.png" alt="" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'BackTop',
-  components: {},
-  props: {},
-  data () {
-    return {}
-  },
-  methods: {
-    backClick () {
-      this.$emit('backClick')
-    }
-  }
+  name: 'BackTop'
 }
 </script>
 
